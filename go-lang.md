@@ -64,7 +64,7 @@ func main() {
 }
 ```
 
-![](/images/screenshot_1.png)
+![](/images/Screenshot_1.png)
 
 Save the above code to a file named `golang.go`. You can use Visual Studio Code or any text editor of your choice.
 
@@ -76,9 +76,9 @@ go run golang.go
 
 You should see the output `Hello World!` printed to the terminal.
 
- ![](images/screenshot_2.png)
+ ![](images/Screenshot_2.png)
 
- ![](images/screenshot_3.png)
+ ![](images/Screenshot_3.png)
 
 
 
@@ -127,9 +127,9 @@ In this example, `x` is a local variable within the `main` function. It's declar
 
 Summary - Local variables are declared within a block of code (e.g., function) and have limited scope
 
-![](images/screenshot_4.png) 
+![](images/Screenshot_4.png) 
 
-![](images/screenshot_5.png)
+![](images/Screenshot_5.png)
 
 ### Package Variables:
 Package variables (also known as global variables) are declared outside of any function and can be accessed from any file within the same package. They have package-level scope.
@@ -153,9 +153,9 @@ In this example, `globalVar` is a package variable declared outside of any funct
 
 Summary - Package variables (global variables) are declared outside of any function and have package-level scope.
 
- ![](images/screenshot_6.png)
+ ![](images/Screenshot_6.png)
 
- ![](images/screenshot_7.png)
+ ![](images/Screenshot_7.png)
 
 ### Dot Notation in Go:
 Dot notation in Go is used to access fields or methods of a struct type. It allows you to access the members of a struct using the dot (`.`) operator.
@@ -182,8 +182,8 @@ func main() {
 }
 ```
 
-![](images/screenshot_8.png)
-![](images/screenshot_9.png)
+![](images/Screenshot_8.png)
+![](images/Screenshot_9.png)
 
 In this example, we define a `Person` struct with two fields: `Name` and `Age`. We then create an instance of this struct and access its fields using dot notation.
 
