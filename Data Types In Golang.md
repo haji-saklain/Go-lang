@@ -1,3 +1,4 @@
+# Data Types
 In Golang, data types define the type of data that a variable can hold.
 
 1. **Numeric Types**:
