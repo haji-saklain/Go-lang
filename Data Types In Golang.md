@@ -30,6 +30,7 @@ In Golang, data types define the type of data that a variable can hold.
    ```
 
 ![](/image/Screenshot_1.jpg)
+
 ![](/image/Screenshot_2.jpg)
 
 
@@ -57,9 +58,9 @@ Int8: 20
 Uint: 30
 ```
 
-![](/image/Screenshot_3.jpg)
+![](image/Screenshot_3.jpg)
 
-![](/image/Screenshot_4.jpg)
+![](image/Screenshot_4.jpg)
 
 
 #### Floating-Point Types:
