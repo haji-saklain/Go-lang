@@ -29,8 +29,9 @@ In Golang, data types define the type of data that a variable can hold.
    Float: 3.14
    ```
 
-![](/image/Screenshot_1.jpg)
-![](/image/Screenshot_2.jpg)
+![](image/Screenshot_1.png)
+
+![](/image/Screenshot_2.png)
 
 
    #### Integer Types:
@@ -57,9 +58,9 @@ Int8: 20
 Uint: 30
 ```
 
-![](/image/Screenshot_3.jpg)
+![](image/Screenshot_3.png)
 
-![](/image/Screenshot_4.jpg)
+![](image/Screenshot_4.png)
 
 
 #### Floating-Point Types:
@@ -83,9 +84,9 @@ Float32: 3.14
 Float64: 6.283185
 ```
 
-![](/image/Screenshot_5.jpg)
+![](/image/Screenshot_5.png)
 
-![](/image/Screenshot_6.jpg)
+![](/image/Screenshot_6.png)
 
 
 2. **Boolean Type**:
@@ -113,9 +114,9 @@ Float64: 6.283185
    False: false
    ```
 
-![](/image/Screenshot_7.jpg)
+![](/image/Screenshot_7.png)
 
-![](/image/Screenshot_8.jpg)
+![](/image/Screenshot_8.png)
 
 
 3. **String Type**:
@@ -140,9 +141,9 @@ Float64: 6.283185
    Hello Saklain!
    ```
 
-   ![](/image/Screenshot_9.jpg)
+   ![](/image/Screenshot_9.png)
 
-   ![](/image/Screenshot_10.jpg)
+   ![](/image/Screenshot_10.png)
 
 
 4. ***Composite Types***:
@@ -208,9 +209,9 @@ Float64: 6.283185
    Struct: {Saklain 21}
    ```
 
-![](/image/Screenshot_11.jpg)
+![](/image/Screenshot_11.png)
 
-![](/image/Screenshot_12.jpg)
+![](/image/Screenshot_12.png)
 
 
 ### 1. Arrays
@@ -239,8 +240,8 @@ Second element: 2
 Third element: 3
 ```
 
-![](/image/Screenshot_13.jpg)
-![](/image/Screenshot_14.jpg)
+![](/image/Screenshot_13.png)
+![](/image/Screenshot_14.png)
 
 ### 2. Slices
 ```go
@@ -276,8 +277,8 @@ Third element: 6
 Fourth element: 8
 ```
 
-![](/image/Screenshot_15.jpg)
-![](/image/Screenshot_16.jpg)
+![](/image/Screenshot_15.png)
+![](/image/Screenshot_16.png)
 
 ### 3. Maps
 ```go
@@ -305,8 +306,8 @@ Value for key 'b': 8
 Value for key 'c': 9
 ```
 
-![](/image/Screenshot_17.jpg)
-![](/image/Screenshot_18.jpg)
+![](/image/Screenshot_17.png)
+![](/image/Screenshot_18.png)
 
 ### 4. Structs
 ```go
@@ -336,5 +337,5 @@ Name: Saklain
 Age: 21
 ```
 
-![](/image/Screenshot_19.jpg)
-![](/image/Screenshot_20.jpg)
+![](/image/Screenshot_19.png)
+![](/image/Screenshot_20.png)
