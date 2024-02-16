@@ -188,3 +188,256 @@ func main() {
 In this example, we define a `Person` struct with two fields: `Name` and `Age`. We then create an instance of this struct and access its fields using dot notation.
 
 Summary - Dot notation is used to access fields or methods of a struct type.
+
+
+## Comments
+Comments in Go are textual annotations within the source code that are ignored by the compiler. They serve as a means to document the code for better understanding and maintenance. Go supports two types of comments:
+
+### Single-Line Comments
+Single-line comments begin with "//" and continue until the end of the line.
+
+```go
+// This is a single-line comment
+fmt.Println("Hello, World!")
+```
+
+![](/image1/Screenshot_11.png)
+
+![](/image1/Screenshot_12.png)
+
+### Multi-Line Comments
+Multi-line comments start with "/*" and end with "*/". They can span across multiple lines.
+
+```go
+/*
+This is a multi-line comment
+It can span across multiple lines
+*/
+fmt.Println("Hello, World!")
+```
+
+![](/image1/Screenshot_13.png)
+
+![](/image1/Screenshot_14.png)
+
+## Variables
+Variables in Go are used to store data that can be manipulated or accessed during the program's execution. They must be declared before use. Go supports various types of variables, including integers, floats, strings, booleans, and complex numbers.
+
+### Variable Declaration
+Variables in Go are declared using the "var" keyword followed by the variable name and type.
+
+```go
+var x int
+var name string
+```
+
+### Variable Initialization
+Variables can be initialized during declaration.
+
+```go
+var x int = 10
+var name string = "Saklain"
+```
+
+### Short Variable Declaration
+A shorter way to declare and initialize variables is by using the ":=" operator.
+
+```go
+x := 10
+name := "Saklain"
+```
+
+### Example Program: Variables
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var x int
+    x = 10
+
+    var name string
+    name = "Saklain"
+
+    y := 20
+    age := 22
+
+    fmt.Println("x =", x)
+    fmt.Println("name =", name)
+    fmt.Println("y =", y)
+    fmt.Println("age =", age)
+}
+```
+
+### Output
+```
+x = 10
+name = Saklain
+y = 20
+age = 22
+```
+
+![](/image1/Screenshot_1.png)
+
+![](/image1/Screenshot_2.png)
+
+## Constants
+Constants are like variables, except that once declared, their value cannot be changed. They are declared using the "const" keyword.
+
+### Constant Declaration
+Constants in Go are declared using the "const" keyword followed by the constant name and value.
+
+```go
+const pi = 3.14
+const degree = 9.8
+```
+
+### Example Program: Constants
+```go
+package main
+
+import "fmt"
+
+func main() {
+    const pi = 3.14
+    const gravity = 9.8
+
+    fmt.Println("Pi =", pi)
+    fmt.Println("Degree =", degree)
+}
+```
+
+### Output
+```
+Pi = 3.14
+Degree = 9.8
+```
+
+![](/image1/Screenshot_3.png)
+
+![](/image1/Screenshot_4.png)
+
+
+## Outputs
+In Go, the "fmt" package is used to provide input and output functionality. The "Println" function is commonly used to print output to the console.
+
+### Example Program: Output
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, World!")
+}
+```
+
+### Output
+```
+Hello, World!
+```
+
+![](/image1/Screenshot_5.png)
+
+![](/image1/Screenshot_6.png)
+
+## Operators
+Operators in Go are symbols that perform operations on operands. Go supports various types of operators, including arithmetic, relational, logical, assignment, and bitwise operators.
+
+### Arithmetic Operators
+Arithmetic operators are used to perform mathematical operations.
+
+```go
++, -, *, /, %
+```
+
+### Example Program: Arithmetic Operators
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+    y := 5
+
+    fmt.Println("x + y =", x+y)
+    fmt.Println("x - y =", x-y)
+    fmt.Println("x * y =", x*y)
+    fmt.Println("x / y =", x/y)
+    fmt.Println("x % y =", x%y)
+}
+```
+
+### Output
+```
+x + y = 15
+x - y = 5
+x * y = 50
+x / y = 2
+x % y = 0
+```
+
+![](/image1/Screenshot_7.png)
+
+![](/image1/Screenshot_8.png)
+
+### Relational Operators
+Relational operators are used to compare values.
+
+```go
+==, !=, <, >, <=, >=
+```
+
+### Logical Operators
+Logical operators are used to perform logical operations.
+
+```go
+&&, ||, !
+```
+
+### Assignment Operators
+Assignment operators are used to assign values to variables.
+
+```go
+=, +=, -=, *=, /=, %=
+```
+
+### Bitwise Operators
+Bitwise operators are used to perform bitwise operations.
+
+```go
+&, |, ^, <<, >>
+```
+
+## Conditions
+Conditions in Go are used to make decisions based on certain conditions. Go provides "if", "else if", and "else" statements for conditional execution.
+
+### Example Program: Conditions
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+
+    if x > 5 {
+        fmt.Println("x is greater than 5")
+    } else if x < 5 {
+        fmt.Println("x is less than 5")
+    } else {
+        fmt.Println("x is equal to 5")
+    }
+}
+```
+
+### Output
+```
+x is greater than 5
+```
+
+![](/image1/Screenshot_9.png)
+
+![](/image1/Screenshot_10.png)
