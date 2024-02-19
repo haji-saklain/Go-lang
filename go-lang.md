@@ -441,3 +441,240 @@ x is greater than 5
 ![](/image1/Screenshot_9.png)
 
 ![](/image1/Screenshot_10.png)
+
+
+
+
+## Conditional Statements:
+
+Conditional statements allow you to execute code based on whether a certain condition is true or false. In Go, we have `if`, `else if`, and `else` constructs to handle conditional logic.
+
+**a. if Statement:**
+
+The `if` statement executes a block of code if a specified condition is true.
+
+**Syntax:**
+```go
+if condition {
+    // code to execute if condition is true
+}
+```
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+    if x > 5 {
+        fmt.Println("x is greater than 5")
+    }
+}
+```
+
+**Output:**
+```
+x is greater than 5
+```
+
+![](/image1/Screenshot_15.png)
+
+
+**b. else if Statement:**
+
+The `else if` statement allows you to specify multiple conditions to test.
+
+**Syntax:**
+```go
+if condition1 {
+    // code to execute if condition1 is true
+} else if condition2 {
+    // code to execute if condition2 is true
+}
+```
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+    if x > 15 {
+        fmt.Println("x is greater than 15")
+    } else if x < 5 {
+        fmt.Println("x is less than 5")
+    } else {
+        fmt.Println("x is between 5 and 15")
+    }
+}
+```
+
+**Output:**
+```
+x is between 5 and 15
+```
+
+![](/image1/Screenshot_16.png)
+
+**c. if else Statement:**
+
+The `if else` statement allows you to execute different blocks of code based on whether a condition is true or false.
+
+**Syntax:**
+```go
+if condition {
+    // code to execute if condition is true
+} else {
+    // code to execute if condition is false
+}
+```
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+    if x%2 == 0 {
+        fmt.Println("x is even")
+    } else {
+        fmt.Println("x is odd")
+    }
+}
+```
+
+**Output:**
+```
+x is even
+```
+
+![](/image1/Screenshot_17.png)
+
+**d. Nested if Statements:**
+
+You can also nest `if` statements within other `if` statements to create more complex conditional logic.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+    if x > 0 {
+        if x%2 == 0 {
+            fmt.Println("x is a positive even number")
+        } else {
+            fmt.Println("x is a positive odd number")
+        }
+    } else {
+        fmt.Println("x is not a positive number")
+    }
+}
+```
+
+**Output:**
+```
+x is a positive even number
+```
+
+![](/image1/Screenshot_18.png)
+
+
+## Switch Statements:
+
+Switch statements allow you to select one of many blocks of code to execute.
+
+**a. Single Case Switch:**
+
+The `switch` statement in Go can be used without an expression. In this case, the `case` clauses contain conditions that are evaluated and executed if true.
+
+**Syntax:**
+```go
+switch {
+case condition1:
+    // code to execute if condition1 is true
+case condition2:
+    // code to execute if condition2 is true
+default:
+    // code to execute if all conditions are false
+}
+```
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 2
+    switch {
+    case x < 0:
+        fmt.Println("x is negative")
+    case x == 0:
+        fmt.Println("x is zero")
+    default:
+        fmt.Println("x is positive")
+    }
+}
+```
+
+**Output:**
+```
+x is positive
+```
+
+![](/image1/Screenshot_19.png)
+
+
+**b. Multi-Case Switch:**
+
+The `switch` statement in Go can also be used with an expression. In this case, each `case` clause contains a value to be compared with the expression.
+
+**Syntax:**
+```go
+switch expression {
+case value1:
+    // code to execute if expression equals value1
+case value2:
+    // code to execute if expression equals value2
+default:
+    // code to execute if expression doesn't match any case
+}
+```
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    day := "Monday"
+    switch day {
+    case "Monday", "Tuesday", "Wednesday", "Thursday", "Friday":
+        fmt.Println("Weekday")
+    case "Saturday", "Sunday":
+        fmt.Println("Weekend")
+    default:
+        fmt.Println("Invalid day")
+    }
+}
+```
+
+**Output:**
+```
+Weekday
+```
+
+![](/image1/Screenshot_20.png)
+
+
