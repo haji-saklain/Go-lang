@@ -678,3 +678,259 @@ Weekday
 ![](/image1/Screenshot_20.png)
 
 
+## Loops
+
+**For Loops**
+
+A for loop in Go is used to repeatedly execute a block of code until a specified condition evaluates to false. The syntax of a for loop is as follows:
+
+```go
+for initialization; condition; post {
+    // code to be executed
+}
+```
+
+- `initialization`: This statement is executed before the loop starts.
+- `condition`: The loop continues to execute as long as this condition evaluates to true.
+- `post`: This statement is executed after each iteration of the loop.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    for i := 0; i < 5; i++ {
+        fmt.Println(i)
+    }
+}
+```
+
+**Output:**
+```
+0
+1
+2
+3
+4
+```
+
+![](/image1/Screenshot_31.png)
+
+---
+
+**Continue Statement:**
+
+The `continue` statement in Go is used to skip the rest of the code inside a loop for the current iteration and proceed to the next iteration.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    for i := 0; i < 5; i++ {
+        if i == 2 {
+            continue
+        }
+        fmt.Println(i)
+    }
+}
+```
+
+**Output:**
+```
+0
+1
+3
+4
+```
+
+![](/image1/Screenshot_32.png)
+
+---
+
+**Break Statement:**
+
+The `break` statement in Go is used to exit a loop prematurely, regardless of the loop condition.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    for i := 0; i < 5; i++ {
+        if i == 3 {
+            break
+        }
+        fmt.Println(i)
+    }
+}
+```
+
+**Output:**
+```
+0
+1
+2
+```
+
+![](/image1/Screenshot_33.png)
+
+---
+**Nested Loops:**
+
+Go supports nesting loops, which means you can place one loop inside another loop.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    for i := 0; i < 3; i++ {
+        for j := 0; j < 2; j++ {
+            fmt.Println(i, j)
+        }
+    }
+}
+```
+
+**Output:**
+```
+0 0
+0 1
+1 0
+1 1
+2 0
+2 1
+```
+
+![](/image1/Screenshot_34.png)
+
+---
+**The Range Keyword:**
+
+The `range` keyword in Go is used to iterate over elements in various data structures like arrays, slices, maps, or strings.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    nums := []int{1, 2, 3, 4, 5}
+    for index, value := range nums {
+        fmt.Println("Index:", index, "Value:", value)
+    }
+}
+```
+
+**Output:**
+```
+Index: 0 Value: 1
+Index: 1 Value: 2
+Index: 2 Value: 3
+Index: 3 Value: 4
+Index: 4 Value: 5
+```
+
+![](/image1/Screenshot_35.png)
+
+---
+
+**Functions, Parameters, and Arguments:**
+
+In Go, functions are blocks of code that perform a specific task. They can accept parameters, which are values passed to the function, and return results.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func greet(name string) {
+    fmt.Println("Hello,", name)
+}
+
+func main() {
+    greet("Haji")
+    greet("Saklain")
+}
+```
+
+**Output:**
+```
+Hello, Haji
+Hello, Saklain
+```
+
+![](/image1/Screenshot_36.png)
+
+---
+
+**Function Return:**
+
+Functions in Go can return one or more values.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func add(a, b int) int {
+    return a + b
+}
+
+func main() {
+    result := add(3, 5)
+    fmt.Println("Sum:", result)
+}
+```
+
+**Output:**
+```
+Sum: 8
+```
+
+![](/image1/Screenshot_37.png)
+
+---
+
+**Recursion:**
+
+Recursion is the process in which a function calls itself directly or indirectly.
+
+**Example:**
+```go
+package main
+
+import "fmt"
+
+func factorial(n int) int {
+    if n == 0 {
+        return 1
+    }
+    return n * factorial(n-1)
+}
+
+func main() {
+    fmt.Println("Factorial of 5:", factorial(5))
+}
+```
+
+**Output:**
+```
+Factorial of 5: 120
+```
+
+![](/image1/Screenshot_38.png)
+
+---
