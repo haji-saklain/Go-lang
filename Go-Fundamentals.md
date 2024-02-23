@@ -1,34 +1,3 @@
-
-```go
-package main
-
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"strings"
-)
-
-func main() {
-	fmt.Println("Insert Text")
-	in := bufio.NewReader(os.Stdin)
-	s, _ := in.ReadString('\n')
-	s = strings.TrimSpace(s)
-	s = strings.ToUpper(s)
-	fmt.Println(s + "!")
-}
-```
-
-```go
-Insert Text
-hi, my name is saklain
-HI, MY NAME IS SAKLAIN!
-```
-
-This Go code reads a string from the standard input (keyboard input), converts it to uppercase, trims any leading or trailing whitespace, and then prints it with an exclamation mark.
-
-Here's a step-by-step explanation of the code:
-
 # Arrays 
 ```go
 package main
