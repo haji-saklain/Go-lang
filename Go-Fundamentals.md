@@ -2784,3 +2784,2129 @@ Looping over a collection before and after each change can have significant diff
    - This approach is often used when you need to perform operations that involve modifying the collection itself, such as removing elements that meet certain conditions or updating values based on specific criteria.
 
 In simple terms, looping over a collection before making changes allows you to inspect the original data without affecting it, while looping over a collection after making changes enables you to apply modifications directly to the collection as you iterate over it.
+
+
+
+
+
+# if Statements
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+    // Defining a variable i with value 5 in a short declaration within the if statement
+	if i := 5; i < 5 { // Check if i is less than 5
+		fmt.Println("i is less than 5")
+	} else if i < 10 { // If i is not less than 5, check if i is less than 10
+		fmt.Println("i is less than 10")
+	} else { // If i is not less than 5 and not less than 10, then it must be greater than or equal to 10
+		fmt.Println("i is greater than or equal to 10")
+	}
+}
+```
+Output:
+```
+i is less than 10
+```
+
+In this output, the program prints "i is less than 10" because the value of `i` is 5, which satisfies the condition `i < 10`.
+
+Explanation:
+- In this Go program, we're using conditional statements (`if`, `else if`, `else`) to check the value of the variable `i`.
+- We're also using a short declaration syntax (`:=`) to declare and initialize `i` with a value of 5 within the `if` statement.
+- The first `if` statement checks if `i` is less than 5. If it is, it prints "i is less than 5".
+- If `i` is not less than 5, the program proceeds to the `else if` statement, which checks if `i` is less than 10. If it is, it prints "i is less than 10".
+- If `i` is neither less than 5 nor less than 10, the program goes to the `else` block and prints "i is greater than or equal to 10".
+
+# Switches
+## before
+
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	fmt.Println("Please select an option")
+	fmt.Println("1) Print menu")
+	var choice string
+	fmt.Scan(&choice) // we don't know what to do with this yet!
+
+	type menuItem struct {
+		name   string
+		prices map[string]float64
+	}
+
+	menu := []menuItem{
+		{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+		{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+	}
+
+	for _, item := range menu {
+		fmt.Println(item.name)
+		fmt.Println(strings.Repeat("-", 10))
+		for size, cost := range item.prices {
+			fmt.Printf("\t%10s%10.2f\n", size, cost)
+		}
+	}
+}
+```
+
+Explanation:
+
+1. The program starts by printing a message asking the user to select an option.
+2. It then prints an option to print the menu (option 1), but it doesn't handle this choice yet.
+3. It defines a struct `menuItem` which represents an item on the menu. Each item has a name and a map of sizes to prices.
+4. It creates a slice `menu` of `menuItem` structs, representing the coffee items available on the menu along with their prices.
+5. It iterates over each item in the `menu` slice.
+   - For each item, it prints the name of the item.
+   - It prints a line of dashes to separate the name from the prices.
+   - It iterates over each size and price pair in the `prices` map for the item, printing the size and corresponding price formatted neatly.
+
+Output:
+
+```
+Please select an option
+1) Print menu
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	   single      1.90
+	   double      2.25
+	   triple      2.55
+```
+
+This output displays the coffee shop menu with the available items (Coffee and Espresso) along with their respective sizes and prices.
+
+
+## after
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+// Define a struct to represent a menu item
+type menuItem struct {
+	name   string            // Name of the menu item
+	prices map[string]float64 // Prices of the item for different sizes
+}
+
+func main() {
+	// Initialize the menu with some predefined items
+	menu := []menuItem{
+		{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+		{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+	}
+
+	// Create a reader to read user input from the standard input
+	in := bufio.NewReader(os.Stdin)
+
+	// Loop to continuously prompt the user for options until they choose to quit
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) Quit")
+		choice, _ := in.ReadString('\n')
+
+		switch strings.TrimSpace(choice) {
+		case "1":
+			// Print the menu items and their prices
+			for _, item := range menu {
+				fmt.Println(item.name)
+				fmt.Println(strings.Repeat("-", len(item.name)))
+				for size, cost := range item.prices {
+					fmt.Printf("\t%10s%10.2f\n", size, cost)
+				}
+			}
+		case "2":
+			// Add a new item to the menu
+			fmt.Println("Please enter the name of the new item")
+			name, _ := in.ReadString('\n')
+			// Trim whitespace from the input and add the new item to the menu
+			menu = append(menu, menuItem{name: strings.TrimSpace(name), prices: make(map[string]float64)})
+		case "q":
+			// Exit the loop and end the program
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+}
+```
+
+To run this program, save it in a file named `menu_management.go` and execute it using the Go compiler (`go run menu_management.go`).
+
+Explanation:
+- The program defines a struct `menuItem` to represent a menu item, which contains the name of the item and a map of prices for different sizes.
+- It initializes a slice `menu` with some predefined menu items.
+- It continuously prompts the user for options using a loop, allowing them to print the menu or add new items.
+- When the user chooses to print the menu, it iterates over the menu items and their prices, printing them to the console.
+- When the user chooses to add a new item, it prompts them for the name of the item and adds it to the menu.
+- The program continues to run until the user chooses to quit.
+
+Here's a sample output of the program:
+
+```
+Please select an option
+1) Print menu
+2) Add item
+q) Quit
+1
+Coffee
+------
+     small      1.65
+    medium      1.80
+     large      1.95
+Espresso
+--------
+    single      1.90
+    double      2.25
+    triple      2.55
+Please select an option
+1) Print menu
+2) Add item
+q) Quit
+2
+Please enter the name of the new item
+Tea
+Please select an option
+1) Print menu
+2) Add item
+q) Quit
+1
+Coffee
+------
+     small      1.65
+    medium      1.80
+     large      1.95
+Espresso
+--------
+    single      1.90
+    double      2.25
+    triple      2.55
+     Tea
+------
+Please select an option
+1) Print menu
+2) Add item
+q) Quit
+q
+```
+
+This demonstrates adding a new item "Tea" to the menu and then printing the updated menu before quitting the program.
+
+
+
+## Deferred Functions:
+In Go, a deferred function is a function call that is executed just before the surrounding function returns. These deferred function calls are executed in Last In, First Out (LIFO) order. They are often used for cleanup tasks or actions that should be performed regardless of how the function exits (either normally or due to a panic).
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("main 1")
+	defer fmt.Println("defer 1")
+	fmt.Println("main 2")
+	defer fmt.Println("defer 2")
+
+	// Some other code (commented out)
+	// db, _ := sql.Open("driverName", "connection string")
+	// defer db.Close()
+
+	// rows, _ := db.Query("some sql query here")
+	// defer rows.Close()
+}
+```
+
+1. **`fmt.Println("main 1")`:** This line prints "main 1" to the console.
+
+2. **`defer fmt.Println("defer 1")`:** This line defers the execution of `fmt.Println("defer 1")` until the surrounding function (`main()`) is about to return. So, "defer 1" will be printed just before `main()` exits.
+
+3. **`fmt.Println("main 2")`:** This line prints "main 2" to the console.
+
+4. **`defer fmt.Println("defer 2")`:** Similar to the previous deferred function, this defers the execution of `fmt.Println("defer 2")` until the surrounding function (`main()`) is about to return. So, "defer 2" will be printed just before `main()` exits.
+
+5. The commented-out code represents examples of using deferred functions in other scenarios, such as closing a database connection (`db.Close()`) or closing database rows (`rows.Close()`). These deferred calls ensure that resources are properly released when the function exits, regardless of whether it exits normally or due to an error.
+
+
+```
+main 1
+main 2
+defer 2
+defer 1
+```
+
+Explanation:
+- "main 1" and "main 2" are printed as expected when their respective `fmt.Println()` calls are executed.
+- "defer 2" is printed just before the `main()` function exits because it was deferred earlier.
+- "defer 1" is printed after "defer 2" because it was deferred later and hence executed first in the Last In, First Out (LIFO) order.
+
+
+
+# Panic and Recover
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    dividend, divisor := 10, 5
+    fmt.Printf("%v divided by %v is %v\n", dividend, divisor, divide(dividend, divisor))
+
+    dividend, divisor = 10, 0
+    fmt.Printf("%v divided by %v is %v\n", dividend, divisor, divide(dividend, divisor))
+}
+
+func divide(dividend, divisor int) int {
+    return dividend / divisor
+}
+```
+
+Output:
+```
+10 divided by 5 is 2
+panic: runtime error: integer divide by zero
+```
+
+Explanation:
+- In the first part of the code, we have a `divide` function that performs integer division of two numbers (`dividend` by `divisor`). It doesn't handle the case when the divisor is 0.
+- In the `main` function, we call `divide` twice: first with `dividend=10` and `divisor=5`, and then with `dividend=10` and `divisor=0`.
+- The first call to `divide` completes successfully, printing "10 divided by 5 is 2".
+- However, the second call to `divide` results in a runtime error because we're trying to divide by zero. This error causes the program to panic, which means it abruptly terminates with an error message.
+
+Now, let's modify the program to handle the panic using `recover`:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    dividend, divisor := 10, 5
+    fmt.Printf("%v divided by %v is %v\n", dividend, divisor, divide(dividend, divisor))
+
+    dividend, divisor = 10, 0
+    fmt.Printf("%v divided by %v is %v\n", dividend, divisor, divide(dividend, divisor))
+}
+
+func divide(dividend, divisor int) int {
+    defer func() {
+        if recover() != nil {
+            fmt.Println("Panic detected!")
+        }
+    }()
+    return dividend / divisor
+}
+```
+
+Output:
+```
+10 divided by 5 is 2
+Panic detected!
+0 divided by 0 is 0
+```
+
+Explanation:
+- In this modified version, we use the `defer` statement to set up a function call (`recover`) to be executed when the `divide` function exits.
+- Inside the `defer` function, we check if `recover()` returns a non-nil value. If it does, it means a panic occurred, and we print "Panic detected!".
+- Now, when the program encounters the division by zero error, it panics as before. However, this time the panic is caught by the `recover` function inside the `divide` function, preventing the program from terminating abruptly. Instead, it prints "Panic detected!" and continues executing the rest of the code.
+- As a result, the program continues to execute, printing "0 divided by 0 is 0" after handling the panic.
+
+
+
+
+
+# Functions
+
+**Before:**
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+type menuItem struct {
+	name   string
+	prices map[string]float64
+}
+
+var menu = []menuItem{
+	{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+	{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) quit")
+		choice, _ := in.ReadString('\n')
+
+		switch strings.TrimSpace(choice) {
+		case "1":
+			for _, item := range menu {
+				fmt.Println(item.name)
+				fmt.Println(strings.Repeat("-", 10))
+				for size, cost := range item.prices {
+					fmt.Printf("\t%10s%10.2f\n", size, cost)
+				}
+			}
+		case "2":
+			fmt.Println("Please enter the name of the new item")
+			name, _ := in.ReadString('\n')
+			menu = append(menu, menuItem{name: strings.TrimSpace(name), prices: make(map[string]float64)})
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+
+}
+```
+
+**Output:**
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+1
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	    single      1.90
+	    double      2.25
+	    triple      2.55
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+2
+Please enter the name of the new item
+Mocha
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+q
+```
+
+**Explanation:**
+- The program defines a `menuItem` struct representing items on the menu, which includes a name and a map of sizes to prices.
+- It initializes a slice `menu` containing some pre-defined items.
+- It uses a loop to continuously prompt the user for options until they choose to quit (`q`).
+- Within the loop, it presents options to print the menu (`1`), add a new item (`2`), or quit.
+- Depending on the user's choice, it either prints the menu with prices, prompts for a new item's name and adds it to the menu, or quits the program.
+- The printing of the menu is done directly inside the `main` function.
+
+**After:**
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+type menuItem struct {
+	name   string
+	prices map[string]float64
+}
+
+var menu = []menuItem{
+	{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+	{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) quit")
+		choice, _ := in.ReadString('\n')
+
+		switch strings.TrimSpace(choice) {
+		case "1":
+			printMenu()
+		case "2":
+			addItem()
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+}
+
+func printMenu() {
+	for _, item := range menu {
+		fmt.Println(item.name)
+		fmt.Println(strings.Repeat("-", 10))
+		for size, cost := range item.prices {
+			fmt.Printf("\t%10s%10.2f\n", size, cost)
+		}
+	}
+}
+func addItem() {
+	fmt.Println("Please enter the name of the new item")
+	name, _ := in.ReadString('\n')
+	menu = append(menu, menuItem{name: strings.TrimSpace(name), prices: make(map[string]float64)})
+}
+```
+
+**Output:**
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+1
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	    single      1.90
+	    double      2.25
+	    triple      2.55
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+2
+Please enter the name of the new item
+Mocha
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+q
+```
+
+**Explanation:**
+- The code has been refactored to separate concerns by moving the functionality for printing the menu and adding an item into their respective functions `printMenu()` and `addItem()`.
+- This makes the code more modular and easier to understand, as each function now has a single responsibility.
+- The `main()` function now simply presents options to the user and calls the appropriate function based on their choice.
+- The `printMenu()` function is responsible for printing the menu with prices.
+- The `addItem()` function prompts the user for a new item's name and adds it to the menu.
+
+
+# Packages
+
+This Go program implements a simple menu management system that allows users to view the menu items and prices, add new items to the menu, or quit the program.
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+// Define a struct for menu items
+type menuItem struct {
+	name   string            // Name of the item
+	prices map[string]float64 // Prices for different sizes
+}
+
+// Define the initial menu
+var menu = []menuItem{
+	{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+	{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+
+// Create a reader for user input
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+	// Main loop for menu options
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) quit")
+		choice, _ := in.ReadString('\n')
+
+		// Process user choice
+		switch strings.TrimSpace(choice) {
+		case "1":
+			printMenu()
+		case "2":
+			addItem()
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+}
+
+// Function to print the menu
+func printMenu() {
+	for _, item := range menu {
+		fmt.Println(item.name)
+		fmt.Println(strings.Repeat("-", 10))
+		for size, cost := range item.prices {
+			fmt.Printf("\t%10s%10.2f\n", size, cost)
+		}
+	}
+}
+
+// Function to add a new item to the menu
+func addItem() {
+	fmt.Println("Please enter the name of the new item")
+	name, _ := in.ReadString('\n')
+	menu = append(menu, menuItem{name: strings.TrimSpace(name), prices: make(map[string]float64)})
+}
+```
+
+#### Output:
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+1
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	   single      1.90
+	    double      2.25
+	    triple      2.55
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+2
+Please enter the name of the new item
+Tea
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+1
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	   single      1.90
+	    double      2.25
+	    triple      2.55
+Tea
+----------
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+q
+```
+
+In this program, the user can choose from three options:
+1. Print the menu
+2. Add a new item to the menu
+3. Quit the program
+
+Based on the user's choice, the program prints the menu with prices, adds a new item to the menu, or exits the program.
+
+
+
+
+### Program 1: Main Program
+
+```go
+package main
+
+import (
+    "bufio"
+    "demo/menu" // Importing package "menu"
+    "fmt"
+    "os"
+    "strings"
+)
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+    loop:
+    for {
+        fmt.Println("Please select an option")
+        fmt.Println("1) Print menu")
+        fmt.Println("2) Add item")
+        fmt.Println("q) quit")
+        choice, _ := in.ReadString('\n')
+
+        switch strings.TrimSpace(choice) {
+        case "1":
+            menu.Print() // Calling function Print() from package "menu"
+        case "2":
+            menu.Add()   // Calling function Add() from package "menu"
+        case "q":
+            break loop
+        default:
+            fmt.Println("Unknown option")
+        }
+    }
+}
+```
+
+#### Output:
+The output of this program will depend on the user's input. It will display a menu of options, allowing the user to print the menu, add an item to the menu, or quit the program.
+
+---
+
+### Program 2: Data
+
+```go
+package menu
+
+// Define a struct type menuItem
+type menuItem struct {
+    name   string
+    prices map[string]float64
+}
+
+// Define some initial menu items
+var menu = []menuItem{
+    {name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+    {name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+```
+
+#### Output:
+No output is generated from this code. It simply declares the initial data structure for the menu.
+
+---
+
+### Program 3: Menu
+
+```go
+package menu
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+    "strings"
+)
+
+var in = bufio.NewReader(os.Stdin)
+
+// Print function to display the menu
+func Print() {
+    for _, item := range menu {
+        fmt.Println(item.name)
+        fmt.Println(strings.Repeat("-", 10))
+        for size, cost := range item.prices {
+            fmt.Printf("\t%10s%10.2f\n", size, cost)
+        }
+    }
+}
+
+// Add function to add a new item to the menu
+func Add() {
+    fmt.Println("Please enter the name of the new item")
+    name, _ := in.ReadString('\n')
+    // Trim any leading or trailing whitespace from the name
+    name = strings.TrimSpace(name)
+    // Append a new menuItem to the menu slice
+    menu = append(menu, menuItem{name: name, prices: make(map[string]float64)})
+}
+```
+
+#### Output:
+The output of this program will be different depending on the user's input. If the user chooses to print the menu, it will display the current items and their prices. If the user chooses to add an item, it will prompt for the name of the new item.
+
+
+
+# Methods
+
+### `main.go`
+
+```go
+package main
+
+import (
+    "bufio"
+    "demo/menu"
+    "fmt"
+    "os"
+    "strings"
+)
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+    loop:
+    for {
+        fmt.Println("Please select an option")
+        fmt.Println("1) Print menu")
+        fmt.Println("2) Add item")
+        fmt.Println("q) quit")
+        choice, _ := in.ReadString('\n')
+
+        switch strings.TrimSpace(choice) {
+        case "1":
+            menu.Print()
+        case "2":
+            err := menu.Add()
+            if err != nil {
+                fmt.Println(fmt.Errorf("invalid input: %w", err))
+            }
+        case "q":
+            break loop
+        default:
+            fmt.Println("Unknown option")
+        }
+    }
+}
+```
+
+**Explanation:**
+- This file contains the main program.
+- It provides a menu to the user with options to print the menu, add an item, or quit the program.
+- It reads user input and calls the appropriate functions from the `menu` package based on the input.
+
+### `menu.go`
+
+```go
+package menu
+
+import (
+    "bufio"
+    "errors"
+    "fmt"
+    "os"
+    "strings"
+)
+
+type menuItem struct {
+    name   string
+    prices map[string]float64
+}
+
+var in = bufio.NewReader(os.Stdin)
+
+var menu = []menuItem{
+    {name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+    {name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+
+func Print() {
+    for _, item := range menu {
+        fmt.Println(item.name)
+        fmt.Println(strings.Repeat("-", 10))
+        for size, cost := range item.prices {
+            fmt.Printf("\t%10s%10.2f\n", size, cost)
+        }
+    }
+}
+
+func Add() error {
+    fmt.Println("Please enter the name of the new item")
+    name, _ := in.ReadString('\n')
+    name = strings.TrimSpace(name)
+
+    for _, item := range menu {
+        if item.name == name {
+            return errors.New("menu item already exists")
+        }
+    }
+    menu = append(menu, menuItem{name: name, prices: make(map[string]float64)})
+    return nil
+}
+```
+
+**Explanation:**
+- This file defines the `menu` package.
+- It declares a `menuItem` struct to represent menu items.
+- It declares a `menu` slice containing sample menu items with their respective prices.
+- It provides functions to print the menu (`Print`) and add a new item to the menu (`Add`).
+
+### `data.go`
+
+```go
+package menu
+
+var menu = []menuItem{
+    {name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+    {name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+```
+
+**Explanation:**
+- This file declares the initial data for the menu.
+- It's included here to demonstrate how data can be separated into its own file for organization.
+
+### Output
+
+When you run the `main.go` program, it will display a menu with options to print the menu, add an item, or quit. Here's an example of the output:
+
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+```
+
+Depending on the user's input, it will either print the menu, prompt the user to add a new item to the menu, or quit the program. The output will vary based on the user's choices.
+
+# Methods
+### `main` Package
+
+```go
+package main
+
+import (
+	"bufio"
+	"demo/menu"
+	"fmt"
+	"os"
+	"strings"
+)
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) quit")
+		choice, _ := in.ReadString('\n')
+
+		switch strings.TrimSpace(choice) {
+		case "1":
+			menu.Print()
+		case "2":
+			err := menu.Add()
+			if err != nil {
+				fmt.Println(fmt.Errorf("invalid input: %w", err))
+			}
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+}
+```
+
+**Explanation:**
+- This code presents a simple menu-driven interface to interact with the menu package.
+- It prompts the user to select an option: print the menu, add an item, or quit.
+- Based on the user's input, it calls corresponding functions from the `menu` package to perform the desired action.
+
+### `menu` Package
+
+```go
+package menu
+
+import (
+	"bufio"
+	"errors"
+	"fmt"
+	"os"
+	"strings"
+)
+
+type menuItem struct {
+	name   string
+	prices map[string]float64
+}
+
+type menu []menuItem
+
+var in = bufio.NewReader(os.Stdin)
+
+func (m menu) print() {
+	for _, item := range m {
+		fmt.Println(item.name)
+		fmt.Println(strings.Repeat("-", 10))
+		for size, cost := range item.prices {
+			fmt.Printf("\t%10s%10.2f\n", size, cost)
+		}
+	}
+}
+
+func (m *menu) add() error {
+	fmt.Println("Please enter the name of the new item")
+	name, _ := in.ReadString('\n')
+	name = strings.TrimSpace(name)
+
+	for _, item := range data {
+		if item.name == name {
+			return errors.New("menu item already exists")
+		}
+	}
+	*m = append(*m, menuItem{name: name, prices: make(map[string]float64)})
+	return nil
+}
+
+func Print() {
+	data.print()
+}
+func Add() error {
+	return data.add()
+}
+```
+
+**Explanation:**
+- This code defines the `menu` package, which contains methods to print the menu and add new items to the menu.
+- It defines a `menuItem` struct to represent each menu item, which includes the name of the item and a map of prices for different sizes.
+- The `print` method prints the menu along with its prices.
+- The `add` method allows adding a new item to the menu.
+- The `Print` and `Add` functions are exported and serve as entry points for interacting with the menu package from the `main` package.
+
+### `data` Package
+
+```go
+package menu
+
+var data = menu{
+	{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+	{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+```
+
+**Explanation:**
+- This code initializes the `data` variable with some initial menu items.
+- It provides sample data for demonstration purposes.
+
+Now, let's provide the outputs.
+
+### Output
+
+When you run the `main` package, it will present a menu like this:
+
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+```
+
+If you choose to print the menu (`1`), it will display the menu items along with their prices. If you choose to add an item (`2`), it will prompt you to enter the name of the new item and then add it to the menu. If you choose to quit (`q`), it will exit the program.
+
+
+# if Statements
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+    // Defining a variable i with value 5 in a short declaration within the if statement
+	if i := 5; i < 5 { // Check if i is less than 5
+		fmt.Println("i is less than 5")
+	} else if i < 10 { // If i is not less than 5, check if i is less than 10
+		fmt.Println("i is less than 10")
+	} else { // If i is not less than 5 and not less than 10, then it must be greater than or equal to 10
+		fmt.Println("i is greater than or equal to 10")
+	}
+}
+```
+Output:
+```
+i is less than 10
+```
+
+In this output, the program prints "i is less than 10" because the value of `i` is 5, which satisfies the condition `i < 10`.
+
+Explanation:
+- In this Go program, we're using conditional statements (`if`, `else if`, `else`) to check the value of the variable `i`.
+- We're also using a short declaration syntax (`:=`) to declare and initialize `i` with a value of 5 within the `if` statement.
+- The first `if` statement checks if `i` is less than 5. If it is, it prints "i is less than 5".
+- If `i` is not less than 5, the program proceeds to the `else if` statement, which checks if `i` is less than 10. If it is, it prints "i is less than 10".
+- If `i` is neither less than 5 nor less than 10, the program goes to the `else` block and prints "i is greater than or equal to 10".
+
+# Switches
+## before
+
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	fmt.Println("Please select an option")
+	fmt.Println("1) Print menu")
+	var choice string
+	fmt.Scan(&choice) // we don't know what to do with this yet!
+
+	type menuItem struct {
+		name   string
+		prices map[string]float64
+	}
+
+	menu := []menuItem{
+		{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+		{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+	}
+
+	for _, item := range menu {
+		fmt.Println(item.name)
+		fmt.Println(strings.Repeat("-", 10))
+		for size, cost := range item.prices {
+			fmt.Printf("\t%10s%10.2f\n", size, cost)
+		}
+	}
+}
+```
+
+Explanation:
+
+1. The program starts by printing a message asking the user to select an option.
+2. It then prints an option to print the menu (option 1), but it doesn't handle this choice yet.
+3. It defines a struct `menuItem` which represents an item on the menu. Each item has a name and a map of sizes to prices.
+4. It creates a slice `menu` of `menuItem` structs, representing the coffee items available on the menu along with their prices.
+5. It iterates over each item in the `menu` slice.
+   - For each item, it prints the name of the item.
+   - It prints a line of dashes to separate the name from the prices.
+   - It iterates over each size and price pair in the `prices` map for the item, printing the size and corresponding price formatted neatly.
+
+Output:
+
+```
+Please select an option
+1) Print menu
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	   single      1.90
+	   double      2.25
+	   triple      2.55
+```
+
+This output displays the coffee shop menu with the available items (Coffee and Espresso) along with their respective sizes and prices.
+
+
+## after
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+// Define a struct to represent a menu item
+type menuItem struct {
+	name   string            // Name of the menu item
+	prices map[string]float64 // Prices of the item for different sizes
+}
+
+func main() {
+	// Initialize the menu with some predefined items
+	menu := []menuItem{
+		{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+		{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+	}
+
+	// Create a reader to read user input from the standard input
+	in := bufio.NewReader(os.Stdin)
+
+	// Loop to continuously prompt the user for options until they choose to quit
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) Quit")
+		choice, _ := in.ReadString('\n')
+
+		switch strings.TrimSpace(choice) {
+		case "1":
+			// Print the menu items and their prices
+			for _, item := range menu {
+				fmt.Println(item.name)
+				fmt.Println(strings.Repeat("-", len(item.name)))
+				for size, cost := range item.prices {
+					fmt.Printf("\t%10s%10.2f\n", size, cost)
+				}
+			}
+		case "2":
+			// Add a new item to the menu
+			fmt.Println("Please enter the name of the new item")
+			name, _ := in.ReadString('\n')
+			// Trim whitespace from the input and add the new item to the menu
+			menu = append(menu, menuItem{name: strings.TrimSpace(name), prices: make(map[string]float64)})
+		case "q":
+			// Exit the loop and end the program
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+}
+```
+
+To run this program, save it in a file named `menu_management.go` and execute it using the Go compiler (`go run menu_management.go`).
+
+Explanation:
+- The program defines a struct `menuItem` to represent a menu item, which contains the name of the item and a map of prices for different sizes.
+- It initializes a slice `menu` with some predefined menu items.
+- It continuously prompts the user for options using a loop, allowing them to print the menu or add new items.
+- When the user chooses to print the menu, it iterates over the menu items and their prices, printing them to the console.
+- When the user chooses to add a new item, it prompts them for the name of the item and adds it to the menu.
+- The program continues to run until the user chooses to quit.
+
+Here's a sample output of the program:
+
+```
+Please select an option
+1) Print menu
+2) Add item
+q) Quit
+1
+Coffee
+------
+     small      1.65
+    medium      1.80
+     large      1.95
+Espresso
+--------
+    single      1.90
+    double      2.25
+    triple      2.55
+Please select an option
+1) Print menu
+2) Add item
+q) Quit
+2
+Please enter the name of the new item
+Tea
+Please select an option
+1) Print menu
+2) Add item
+q) Quit
+1
+Coffee
+------
+     small      1.65
+    medium      1.80
+     large      1.95
+Espresso
+--------
+    single      1.90
+    double      2.25
+    triple      2.55
+     Tea
+------
+Please select an option
+1) Print menu
+2) Add item
+q) Quit
+q
+```
+
+This demonstrates adding a new item "Tea" to the menu and then printing the updated menu before quitting the program.
+
+
+
+## Deferred Functions:
+In Go, a deferred function is a function call that is executed just before the surrounding function returns. These deferred function calls are executed in Last In, First Out (LIFO) order. They are often used for cleanup tasks or actions that should be performed regardless of how the function exits (either normally or due to a panic).
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("main 1")
+	defer fmt.Println("defer 1")
+	fmt.Println("main 2")
+	defer fmt.Println("defer 2")
+
+	// Some other code (commented out)
+	// db, _ := sql.Open("driverName", "connection string")
+	// defer db.Close()
+
+	// rows, _ := db.Query("some sql query here")
+	// defer rows.Close()
+}
+```
+
+1. **`fmt.Println("main 1")`:** This line prints "main 1" to the console.
+
+2. **`defer fmt.Println("defer 1")`:** This line defers the execution of `fmt.Println("defer 1")` until the surrounding function (`main()`) is about to return. So, "defer 1" will be printed just before `main()` exits.
+
+3. **`fmt.Println("main 2")`:** This line prints "main 2" to the console.
+
+4. **`defer fmt.Println("defer 2")`:** Similar to the previous deferred function, this defers the execution of `fmt.Println("defer 2")` until the surrounding function (`main()`) is about to return. So, "defer 2" will be printed just before `main()` exits.
+
+5. The commented-out code represents examples of using deferred functions in other scenarios, such as closing a database connection (`db.Close()`) or closing database rows (`rows.Close()`). These deferred calls ensure that resources are properly released when the function exits, regardless of whether it exits normally or due to an error.
+
+
+```
+main 1
+main 2
+defer 2
+defer 1
+```
+
+Explanation:
+- "main 1" and "main 2" are printed as expected when their respective `fmt.Println()` calls are executed.
+- "defer 2" is printed just before the `main()` function exits because it was deferred earlier.
+- "defer 1" is printed after "defer 2" because it was deferred later and hence executed first in the Last In, First Out (LIFO) order.
+
+
+
+# Panic and Recover
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    dividend, divisor := 10, 5
+    fmt.Printf("%v divided by %v is %v\n", dividend, divisor, divide(dividend, divisor))
+
+    dividend, divisor = 10, 0
+    fmt.Printf("%v divided by %v is %v\n", dividend, divisor, divide(dividend, divisor))
+}
+
+func divide(dividend, divisor int) int {
+    return dividend / divisor
+}
+```
+
+Output:
+```
+10 divided by 5 is 2
+panic: runtime error: integer divide by zero
+```
+
+Explanation:
+- In the first part of the code, we have a `divide` function that performs integer division of two numbers (`dividend` by `divisor`). It doesn't handle the case when the divisor is 0.
+- In the `main` function, we call `divide` twice: first with `dividend=10` and `divisor=5`, and then with `dividend=10` and `divisor=0`.
+- The first call to `divide` completes successfully, printing "10 divided by 5 is 2".
+- However, the second call to `divide` results in a runtime error because we're trying to divide by zero. This error causes the program to panic, which means it abruptly terminates with an error message.
+
+Now, let's modify the program to handle the panic using `recover`:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    dividend, divisor := 10, 5
+    fmt.Printf("%v divided by %v is %v\n", dividend, divisor, divide(dividend, divisor))
+
+    dividend, divisor = 10, 0
+    fmt.Printf("%v divided by %v is %v\n", dividend, divisor, divide(dividend, divisor))
+}
+
+func divide(dividend, divisor int) int {
+    defer func() {
+        if recover() != nil {
+            fmt.Println("Panic detected!")
+        }
+    }()
+    return dividend / divisor
+}
+```
+
+Output:
+```
+10 divided by 5 is 2
+Panic detected!
+0 divided by 0 is 0
+```
+
+Explanation:
+- In this modified version, we use the `defer` statement to set up a function call (`recover`) to be executed when the `divide` function exits.
+- Inside the `defer` function, we check if `recover()` returns a non-nil value. If it does, it means a panic occurred, and we print "Panic detected!".
+- Now, when the program encounters the division by zero error, it panics as before. However, this time the panic is caught by the `recover` function inside the `divide` function, preventing the program from terminating abruptly. Instead, it prints "Panic detected!" and continues executing the rest of the code.
+- As a result, the program continues to execute, printing "0 divided by 0 is 0" after handling the panic.
+
+
+
+
+
+# Functions
+
+**Before:**
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+type menuItem struct {
+	name   string
+	prices map[string]float64
+}
+
+var menu = []menuItem{
+	{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+	{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) quit")
+		choice, _ := in.ReadString('\n')
+
+		switch strings.TrimSpace(choice) {
+		case "1":
+			for _, item := range menu {
+				fmt.Println(item.name)
+				fmt.Println(strings.Repeat("-", 10))
+				for size, cost := range item.prices {
+					fmt.Printf("\t%10s%10.2f\n", size, cost)
+				}
+			}
+		case "2":
+			fmt.Println("Please enter the name of the new item")
+			name, _ := in.ReadString('\n')
+			menu = append(menu, menuItem{name: strings.TrimSpace(name), prices: make(map[string]float64)})
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+
+}
+```
+
+**Output:**
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+1
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	    single      1.90
+	    double      2.25
+	    triple      2.55
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+2
+Please enter the name of the new item
+Mocha
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+q
+```
+
+**Explanation:**
+- The program defines a `menuItem` struct representing items on the menu, which includes a name and a map of sizes to prices.
+- It initializes a slice `menu` containing some pre-defined items.
+- It uses a loop to continuously prompt the user for options until they choose to quit (`q`).
+- Within the loop, it presents options to print the menu (`1`), add a new item (`2`), or quit.
+- Depending on the user's choice, it either prints the menu with prices, prompts for a new item's name and adds it to the menu, or quits the program.
+- The printing of the menu is done directly inside the `main` function.
+
+**After:**
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+type menuItem struct {
+	name   string
+	prices map[string]float64
+}
+
+var menu = []menuItem{
+	{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+	{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) quit")
+		choice, _ := in.ReadString('\n')
+
+		switch strings.TrimSpace(choice) {
+		case "1":
+			printMenu()
+		case "2":
+			addItem()
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+}
+
+func printMenu() {
+	for _, item := range menu {
+		fmt.Println(item.name)
+		fmt.Println(strings.Repeat("-", 10))
+		for size, cost := range item.prices {
+			fmt.Printf("\t%10s%10.2f\n", size, cost)
+		}
+	}
+}
+func addItem() {
+	fmt.Println("Please enter the name of the new item")
+	name, _ := in.ReadString('\n')
+	menu = append(menu, menuItem{name: strings.TrimSpace(name), prices: make(map[string]float64)})
+}
+```
+
+**Output:**
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+1
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	    single      1.90
+	    double      2.25
+	    triple      2.55
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+2
+Please enter the name of the new item
+Mocha
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+q
+```
+
+**Explanation:**
+- The code has been refactored to separate concerns by moving the functionality for printing the menu and adding an item into their respective functions `printMenu()` and `addItem()`.
+- This makes the code more modular and easier to understand, as each function now has a single responsibility.
+- The `main()` function now simply presents options to the user and calls the appropriate function based on their choice.
+- The `printMenu()` function is responsible for printing the menu with prices.
+- The `addItem()` function prompts the user for a new item's name and adds it to the menu.
+
+
+# Packages
+
+This Go program implements a simple menu management system that allows users to view the menu items and prices, add new items to the menu, or quit the program.
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+// Define a struct for menu items
+type menuItem struct {
+	name   string            // Name of the item
+	prices map[string]float64 // Prices for different sizes
+}
+
+// Define the initial menu
+var menu = []menuItem{
+	{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+	{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+
+// Create a reader for user input
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+	// Main loop for menu options
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) quit")
+		choice, _ := in.ReadString('\n')
+
+		// Process user choice
+		switch strings.TrimSpace(choice) {
+		case "1":
+			printMenu()
+		case "2":
+			addItem()
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+}
+
+// Function to print the menu
+func printMenu() {
+	for _, item := range menu {
+		fmt.Println(item.name)
+		fmt.Println(strings.Repeat("-", 10))
+		for size, cost := range item.prices {
+			fmt.Printf("\t%10s%10.2f\n", size, cost)
+		}
+	}
+}
+
+// Function to add a new item to the menu
+func addItem() {
+	fmt.Println("Please enter the name of the new item")
+	name, _ := in.ReadString('\n')
+	menu = append(menu, menuItem{name: strings.TrimSpace(name), prices: make(map[string]float64)})
+}
+```
+
+#### Output:
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+1
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	   single      1.90
+	    double      2.25
+	    triple      2.55
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+2
+Please enter the name of the new item
+Tea
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+1
+Coffee
+----------
+	    small      1.65
+	   medium      1.80
+	    large      1.95
+Espresso
+----------
+	   single      1.90
+	    double      2.25
+	    triple      2.55
+Tea
+----------
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+q
+```
+
+In this program, the user can choose from three options:
+1. Print the menu
+2. Add a new item to the menu
+3. Quit the program
+
+Based on the user's choice, the program prints the menu with prices, adds a new item to the menu, or exits the program.
+
+
+
+
+### Program 1: Main Program
+
+```go
+package main
+
+import (
+    "bufio"
+    "demo/menu" // Importing package "menu"
+    "fmt"
+    "os"
+    "strings"
+)
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+    loop:
+    for {
+        fmt.Println("Please select an option")
+        fmt.Println("1) Print menu")
+        fmt.Println("2) Add item")
+        fmt.Println("q) quit")
+        choice, _ := in.ReadString('\n')
+
+        switch strings.TrimSpace(choice) {
+        case "1":
+            menu.Print() // Calling function Print() from package "menu"
+        case "2":
+            menu.Add()   // Calling function Add() from package "menu"
+        case "q":
+            break loop
+        default:
+            fmt.Println("Unknown option")
+        }
+    }
+}
+```
+
+#### Output:
+The output of this program will depend on the user's input. It will display a menu of options, allowing the user to print the menu, add an item to the menu, or quit the program.
+
+---
+
+### Program 2: Data
+
+```go
+package menu
+
+// Define a struct type menuItem
+type menuItem struct {
+    name   string
+    prices map[string]float64
+}
+
+// Define some initial menu items
+var menu = []menuItem{
+    {name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+    {name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+```
+
+#### Output:
+No output is generated from this code. It simply declares the initial data structure for the menu.
+
+---
+
+### Program 3: Menu
+
+```go
+package menu
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+    "strings"
+)
+
+var in = bufio.NewReader(os.Stdin)
+
+// Print function to display the menu
+func Print() {
+    for _, item := range menu {
+        fmt.Println(item.name)
+        fmt.Println(strings.Repeat("-", 10))
+        for size, cost := range item.prices {
+            fmt.Printf("\t%10s%10.2f\n", size, cost)
+        }
+    }
+}
+
+// Add function to add a new item to the menu
+func Add() {
+    fmt.Println("Please enter the name of the new item")
+    name, _ := in.ReadString('\n')
+    // Trim any leading or trailing whitespace from the name
+    name = strings.TrimSpace(name)
+    // Append a new menuItem to the menu slice
+    menu = append(menu, menuItem{name: name, prices: make(map[string]float64)})
+}
+```
+
+#### Output:
+The output of this program will be different depending on the user's input. If the user chooses to print the menu, it will display the current items and their prices. If the user chooses to add an item, it will prompt for the name of the new item.
+
+
+
+# Methods
+
+### `main.go`
+
+```go
+package main
+
+import (
+    "bufio"
+    "demo/menu"
+    "fmt"
+    "os"
+    "strings"
+)
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+    loop:
+    for {
+        fmt.Println("Please select an option")
+        fmt.Println("1) Print menu")
+        fmt.Println("2) Add item")
+        fmt.Println("q) quit")
+        choice, _ := in.ReadString('\n')
+
+        switch strings.TrimSpace(choice) {
+        case "1":
+            menu.Print()
+        case "2":
+            err := menu.Add()
+            if err != nil {
+                fmt.Println(fmt.Errorf("invalid input: %w", err))
+            }
+        case "q":
+            break loop
+        default:
+            fmt.Println("Unknown option")
+        }
+    }
+}
+```
+
+**Explanation:**
+- This file contains the main program.
+- It provides a menu to the user with options to print the menu, add an item, or quit the program.
+- It reads user input and calls the appropriate functions from the `menu` package based on the input.
+
+### `menu.go`
+
+```go
+package menu
+
+import (
+    "bufio"
+    "errors"
+    "fmt"
+    "os"
+    "strings"
+)
+
+type menuItem struct {
+    name   string
+    prices map[string]float64
+}
+
+var in = bufio.NewReader(os.Stdin)
+
+var menu = []menuItem{
+    {name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+    {name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+
+func Print() {
+    for _, item := range menu {
+        fmt.Println(item.name)
+        fmt.Println(strings.Repeat("-", 10))
+        for size, cost := range item.prices {
+            fmt.Printf("\t%10s%10.2f\n", size, cost)
+        }
+    }
+}
+
+func Add() error {
+    fmt.Println("Please enter the name of the new item")
+    name, _ := in.ReadString('\n')
+    name = strings.TrimSpace(name)
+
+    for _, item := range menu {
+        if item.name == name {
+            return errors.New("menu item already exists")
+        }
+    }
+    menu = append(menu, menuItem{name: name, prices: make(map[string]float64)})
+    return nil
+}
+```
+
+**Explanation:**
+- This file defines the `menu` package.
+- It declares a `menuItem` struct to represent menu items.
+- It declares a `menu` slice containing sample menu items with their respective prices.
+- It provides functions to print the menu (`Print`) and add a new item to the menu (`Add`).
+
+### `data.go`
+
+```go
+package menu
+
+var menu = []menuItem{
+    {name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+    {name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+```
+
+**Explanation:**
+- This file declares the initial data for the menu.
+- It's included here to demonstrate how data can be separated into its own file for organization.
+
+### Output
+
+When you run the `main.go` program, it will display a menu with options to print the menu, add an item, or quit. Here's an example of the output:
+
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+```
+
+Depending on the user's input, it will either print the menu, prompt the user to add a new item to the menu, or quit the program. The output will vary based on the user's choices.
+
+# Methods
+### `main` Package
+
+```go
+package main
+
+import (
+	"bufio"
+	"demo/menu"
+	"fmt"
+	"os"
+	"strings"
+)
+
+var in = bufio.NewReader(os.Stdin)
+
+func main() {
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) quit")
+		choice, _ := in.ReadString('\n')
+
+		switch strings.TrimSpace(choice) {
+		case "1":
+			menu.Print()
+		case "2":
+			err := menu.Add()
+			if err != nil {
+				fmt.Println(fmt.Errorf("invalid input: %w", err))
+			}
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
+		}
+	}
+}
+```
+
+**Explanation:**
+- This code presents a simple menu-driven interface to interact with the menu package.
+- It prompts the user to select an option: print the menu, add an item, or quit.
+- Based on the user's input, it calls corresponding functions from the `menu` package to perform the desired action.
+
+### `menu` Package
+
+```go
+package menu
+
+import (
+	"bufio"
+	"errors"
+	"fmt"
+	"os"
+	"strings"
+)
+
+type menuItem struct {
+	name   string
+	prices map[string]float64
+}
+
+type menu []menuItem
+
+var in = bufio.NewReader(os.Stdin)
+
+func (m menu) print() {
+	for _, item := range m {
+		fmt.Println(item.name)
+		fmt.Println(strings.Repeat("-", 10))
+		for size, cost := range item.prices {
+			fmt.Printf("\t%10s%10.2f\n", size, cost)
+		}
+	}
+}
+
+func (m *menu) add() error {
+	fmt.Println("Please enter the name of the new item")
+	name, _ := in.ReadString('\n')
+	name = strings.TrimSpace(name)
+
+	for _, item := range data {
+		if item.name == name {
+			return errors.New("menu item already exists")
+		}
+	}
+	*m = append(*m, menuItem{name: name, prices: make(map[string]float64)})
+	return nil
+}
+
+func Print() {
+	data.print()
+}
+func Add() error {
+	return data.add()
+}
+```
+
+**Explanation:**
+- This code defines the `menu` package, which contains methods to print the menu and add new items to the menu.
+- It defines a `menuItem` struct to represent each menu item, which includes the name of the item and a map of prices for different sizes.
+- The `print` method prints the menu along with its prices.
+- The `add` method allows adding a new item to the menu.
+- The `Print` and `Add` functions are exported and serve as entry points for interacting with the menu package from the `main` package.
+
+### `data` Package
+
+```go
+package menu
+
+var data = menu{
+	{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
+	{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
+}
+```
+
+**Explanation:**
+- This code initializes the `data` variable with some initial menu items.
+- It provides sample data for demonstration purposes.
+
+Now, let's provide the outputs.
+
+### Output
+
+When you run the `main` package, it will present a menu like this:
+
+```
+Please select an option
+1) Print menu
+2) Add item
+q) quit
+```
+
+If you choose to print the menu (`1`), it will display the menu items along with their prices. If you choose to add an item (`2`), it will prompt you to enter the name of the new item and then add it to the menu. If you choose to quit (`q`), it will exit the program.
+
+
+
