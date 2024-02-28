@@ -4637,6 +4637,8 @@ func Add() {
 The output of this program will be different depending on the user's input. If the user chooses to print the menu, it will display the current items and their prices. If the user chooses to add an item, it will prompt for the name of the new item.
 
 
+---
+
 
 # Methods
 
@@ -4685,6 +4687,8 @@ func main() {
 - This file contains the main program.
 - It provides a menu to the user with options to print the menu, add an item, or quit the program.
 - It reads user input and calls the appropriate functions from the `menu` package based on the input.
+
+---
 
 ### `menu.go`
 
@@ -4742,6 +4746,8 @@ func Add() error {
 - It declares a `menu` slice containing sample menu items with their respective prices.
 - It provides functions to print the menu (`Print`) and add a new item to the menu (`Add`).
 
+---
+
 ### `data.go`
 
 ```go
@@ -4769,6 +4775,8 @@ q) quit
 ```
 
 Depending on the user's input, it will either print the menu, prompt the user to add a new item to the menu, or quit the program. The output will vary based on the user's choices.
+
+---
 
 # Methods
 ### `main` Package
@@ -4816,6 +4824,8 @@ loop:
 - This code presents a simple menu-driven interface to interact with the menu package.
 - It prompts the user to select an option: print the menu, add an item, or quit.
 - Based on the user's input, it calls corresponding functions from the `menu` package to perform the desired action.
+
+---
 
 ### `menu` Package
 
@@ -4878,6 +4888,8 @@ func Add() error {
 - The `add` method allows adding a new item to the menu.
 - The `Print` and `Add` functions are exported and serve as entry points for interacting with the menu package from the `main` package.
 
+---
+
 ### `data` Package
 
 ```go
@@ -4908,5 +4920,284 @@ q) quit
 
 If you choose to print the menu (`1`), it will display the menu items along with their prices. If you choose to add an item (`2`), it will prompt you to enter the name of the new item and then add it to the menu. If you choose to quit (`q`), it will exit the program.
 
+
+---
+
+
+# Object Orientation and Polymorphism
+
+**Methods:**
+
+In Go, methods are functions associated with a particular type. They allow you to associate behavior with data structures. Methods are defined using the `func` keyword followed by the receiver type. The receiver type is the type upon which the method operates.
+
+```go
+package main
+
+import "fmt"
+
+type Rectangle struct {
+    length, width float64
+}
+
+// Method to calculate the area of Rectangle
+func (r Rectangle) Area() float64 {
+    return r.length * r.width
+}
+
+func main() {
+    rect := Rectangle{length: 5, width: 3}
+    fmt.Println("Area of Rectangle:", rect.Area())
+}
+```
+
+**Output:**
+
+```go
+Area of Rectangle: 15
+```
+
+---
+
+**Interfaces:**
+
+Interfaces in Go provide a way to specify behavior without actually implementing it. An interface is a set of method signatures. Any type that implements all the methods of an interface implicitly implements that interface.
+
+```go
+package main
+
+import "fmt"
+
+type Shape interface {
+    Area() float64
+}
+
+type Rectangle struct {
+    length, width float64
+}
+
+// Implementing the Area method for Rectangle
+func (r Rectangle) Area() float64 {
+    return r.length * r.width
+}
+
+func PrintArea(s Shape) {
+    fmt.Println("Area:", s.Area())
+}
+
+func main() {
+    rect := Rectangle{length: 5, width: 3}
+    PrintArea(rect)
+}
+```
+
+**Output:**
+
+```go
+Area: 15
+```
+
+---
+
+**Basic Generics:**
+
+Generics allow you to write functions and data structures that can work with any type. In Go 1.18 and later versions, basic generics are introduced, enabling you to write generic code using type parameters.
+
+```go
+package main
+
+import "fmt"
+
+func PrintSlice[T any](s []T) {
+    for _, v := range s {
+        fmt.Println(v)
+    }
+}
+
+func main() {
+    ints := []int{1, 2, 3}
+    PrintSlice(ints)
+
+    strings := []string{"apple", "banana", "orange"}
+    PrintSlice(strings)
+}
+```
+
+**Output:**
+
+```go
+1
+2
+3
+apple
+banana
+orange
+```
+
+---
+
+**Generic Constraints:**
+
+Generic constraints allow you to restrict the types that can be used with a generic function or data structure. You can specify constraints using interface types or predefined type sets.
+
+```go
+package main
+
+import "fmt"
+
+type Adder[T any] interface {
+    Add(T, T) T
+}
+
+func Sum[T Adder[T]](a, b T) T {
+    return a.Add(a, b)
+}
+
+type Int int
+
+func (i Int) Add(a, b Int) Int {
+    return a + b
+}
+
+func main() {
+    result := Sum(Int(3), Int(5))
+    fmt.Println("Sum:", result)
+}
+```
+
+**Output:**
+
+```go
+Sum: 8
+```
+
+---
+
+**Type Interfaces:**
+
+In Go, interfaces can be implemented implicitly. This means that any type that implements the methods of an interface without explicitly declaring it satisfies that interface.
+
+```go
+package main
+
+import "fmt"
+
+type Printable interface {
+    Print()
+}
+
+type Person struct {
+    Name string
+}
+
+// Implementing Printable interface
+func (p Person) Print() {
+    fmt.Println("Name:", p.Name)
+}
+
+func main() {
+    var p Printable = Person{Name: "Saklain"}
+    p.Print()
+}
+```
+
+**Output:**
+
+```go
+Name: Saklain
+```
+
+---
+
+# Error Management
+
+**1. Creating Errors:**
+In Go, errors are represented by the `error` interface, which is defined as:
+```go
+type error interface {
+    Error() string
+}
+```
+To create a new error, you can use the `errors` package:
+```go
+package main
+
+import (
+    "errors"
+    "fmt"
+)
+
+func main() {
+    err := errors.New("This is an example error")
+    fmt.Println(err.Error())
+}
+```
+**Output:**
+```
+This is an example error
+```
+
+---
+
+**2. Comma Error Pattern:**
+The comma error pattern in Go is a common idiom used to handle errors. It involves using the comma-ok syntax in conjunction with if statements to check for errors and handle them gracefully.
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func divide(a, b int) (int, error) {
+    if b == 0 {
+        return 0, fmt.Errorf("cannot divide by zero")
+    }
+    return a / b, nil
+}
+
+func main() {
+    result, err := divide(10, 2)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+    fmt.Println("Result:", result)
+}
+```
+**Output:**
+```
+Result: 5
+```
+
+---
+
+**3. Panic vs. Error:**
+In Go, `panic` and `error` are two mechanisms for handling exceptional situations, but they serve different purposes.
+- **Panic:** It is used to terminate the program abruptly when something unexpected happens, such as a runtime error. Panics are generally not used for routine error handling.
+- **Error:** Errors are used to indicate expected and recoverable problems in the program flow. They are propagated up the call stack until they are handled.
+
+**Sample Program demonstrating Panic and Error:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Recovered from panic:", r)
+        }
+    }()
+    panicExample()
+    fmt.Println("This line will not be executed due to panic.")
+}
+
+func panicExample() {
+    panic("This is a panic example")
+}
+```
+**Output:**
+```
+Recovered from panic: This is a panic example
+```
 
 
