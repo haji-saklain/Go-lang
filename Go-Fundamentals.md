@@ -5201,3 +5201,201 @@ Recovered from panic: This is a panic example
 ```
 
 
+
+# Goroutines and WaitGroups
+
+Goroutines are lightweight threads managed by the Go runtime. They allow functions to be executed concurrently. WaitGroups are used to wait for a collection of goroutines to finish executing before continuing.
+
+
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func worker(id int, wg *sync.WaitGroup) {
+	defer wg.Done() // Decrements the WaitGroup counter when the function exits
+	fmt.Printf("Worker %d starting\n", id)
+	time.Sleep(time.Second) // Simulate some work
+	fmt.Printf("Worker %d done\n", id)
+}
+
+func main() {
+	var wg sync.WaitGroup
+
+	for i := 1; i <= 3; i++ {
+		wg.Add(1) // Increment the WaitGroup counter for each goroutine
+		go worker(i, &wg)
+	}
+
+	wg.Wait() // Blocks until the WaitGroup counter becomes zero
+	fmt.Println("All workers done")
+}
+```
+
+### Output:
+
+```
+Worker 1 starting
+Worker 2 starting
+Worker 3 starting
+Worker 2 done
+Worker 1 done
+Worker 3 done
+All workers done
+```
+
+# Channels
+
+Channels are the pipes that connect concurrent goroutines. You can send values into channels from one goroutine and receive those values into another goroutine.
+
+
+
+```go
+package main
+
+import "fmt"
+
+func sendMessages(messages chan string) {
+	messages <- "Hello"
+	messages <- "World"
+	close(messages)
+}
+
+func main() {
+	messages := make(chan string)
+
+	go sendMessages(messages)
+
+	for msg := range messages {
+		fmt.Println(msg)
+	}
+}
+```
+
+### Output:
+
+```
+Hello
+World
+```
+
+# Select Statements
+
+The `select` statement lets a goroutine wait on multiple communication operations. It blocks until one of its cases can proceed, then it executes that case.
+
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch1 := make(chan string)
+	ch2 := make(chan string)
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		ch1 <- "one"
+	}()
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		ch2 <- "two"
+	}()
+
+	for i := 0; i < 2; i++ {
+		select {
+		case msg1 := <-ch1:
+			fmt.Println("Received", msg1)
+		case msg2 := <-ch2:
+			fmt.Println("Received", msg2)
+		}
+	}
+}
+```
+
+### Output:
+
+```
+Received one
+Received two
+```
+
+# Ranging Over Channels
+
+You can range over channels to iterate over the values received from the channel until it is closed.
+
+
+```go
+package main
+
+import "fmt"
+
+func produce(ch chan int) {
+	for i := 0; i < 5; i++ {
+		ch <- i
+	}
+	close(ch)
+}
+
+func main() {
+	ch := make(chan int)
+
+	go produce(ch)
+
+	for num := range ch {
+		fmt.Println("Received", num)
+	}
+}
+```
+
+### Output:
+
+```
+Received 0
+Received 1
+Received 2
+Received 3
+Received 4
+```
+
+# Testing in Go
+
+Go has a built-in testing framework that allows you to write and execute tests easily.
+
+
+
+```go
+package main
+
+import "testing"
+
+func Add(a, b int) int {
+	return a + b
+}
+
+func TestAdd(t *testing.T) {
+	result := Add(2, 3)
+	if result != 5 {
+		t.Errorf("Add(2, 3) = %d; want 5", result)
+	}
+}
+```
+
+### Running Tests:
+
+To run tests, you can use the `go test` command:
+
+```
+go test
+```
+
+This will automatically find and run tests in any files named `*_test.go` in the current directory and its subdirectories.
