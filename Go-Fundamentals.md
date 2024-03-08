@@ -1,15 +1,3 @@
-<details>
-  <summary>Table of Contents</summary>
-
-  1. [Arrays](#arrays)
-  2. [Slices](#slices)
-  3. [Maps](#maps)
-  4. [Struct](#struct)
-  5. [Variables](#variables)
-  6. [Arithmetic Operations](#arithmetic-operations)
-  7. [Constants](#constants)
-</details>
-
 
 
 
