@@ -3053,13 +3053,13 @@ This will automatically find and run tests in any files named `*_test.go` in the
 
 Marshalling and Unmarshalling, Encoding and Decoding are essential concepts in Go used for converting data between different representations. These operations are commonly used in scenarios like serializing data for storage or transmission, interacting with APIs, and working with different data formats such as JSON, XML, or binary data.
 
-**Marshall and Unmarshall:**
+# **Marshall and Unmarshall:**
 
-**Marshalling:** Marshalling is the process of converting Go data structures like structs, slices, maps into a byte stream or a string. It transforms the data into a format that is suitable for storage or transmission, such as JSON or XML.
+## Marshalling:** Marshalling is the process of converting Go data structures like structs, slices, maps into a byte stream or a string. It transforms the data into a format that is suitable for storage or transmission, such as JSON or XML.
 Marshalling is a way to prepare data to be stored or transmitted. It converts data from its native form into a specific format, like JSON or XML, so it can be easily saved or sent somewhere else. It's like preparing a letter in a particular format before sending it out.
 
 
-**Unmarshalling:** Unmarshalling is the opposite process of Marshalling.
+## **Unmarshalling:** Unmarshalling is the opposite process of Marshalling.
  It takes data that was previously prepared in a specific format and converts it back to its original form. It's like receiving a letter in a specific format and then extracting the information from it to understand its content.
 
 **Why They Are Used:**
@@ -3109,12 +3109,12 @@ Marshalled Data: {"name":"Saklain","age":22}
 Unmarshalled Data: {Saklain 22}
 ```
 
-**Encoder and Decoder:**
-**Encoding:**
+# **Encoder and Decoder:**
+## **Encoding:**
 Encoding is the process of converting data from its native format into another format, such as JSON, XML, or binary.
 An encoder is like a machine that takes something you want to store or send, and it converts it into a form that's easy to manage for storage or transmission. It's like putting your data into a package.
 
-**Decoding:**
+## **Decoding:**
 Decoding is the reverse process of Encoding. It involves converting encoded data back into its native format.
 A decoder is the opposite of an encoder. It's like a machine that unpacks the data that was previously encoded, returning it to its original form. It's like opening the package to see what's inside.
 
@@ -3170,13 +3170,13 @@ Encoded Data: {"name":"Saklain","age":22}
 Decoded Data: {Saklain 22}
 ```
 
-**Similarities:** Both Marshalling/Unmarshalling and Encoding/Decoding serve similar purposes converting data between different representations.
-**Differences:**
-***Encoder/Decoder vs. Marshal/Unmarshal:*** 
+## **Similarities:** Both Marshalling/Unmarshalling and Encoding/Decoding serve similar purposes converting data between different representations.
+## **Differences:**
+### ***Encoder/Decoder vs. Marshal/Unmarshal:*** 
 The main difference between encoder/decoder and marshal/unmarshal lies in their level of abstraction and the formats they work with.
 Encoder and decoder are more generic terms that can be applied to various data formats and encoding schemes, whereas marshal and unmarshal are specific to certain formats like JSON, XML, or binary.
 
-**Use Cases:**
+ ## **Use Cases:**
 Encoder/decoder are commonly used when working with binary data, networking protocols, or custom data formats where you need more control over the encoding/decoding process.
 Marshal/unmarshal are more commonly used when dealing with structured data in specific formats like JSON or XML, especially when interacting with web services or APIs.
 
