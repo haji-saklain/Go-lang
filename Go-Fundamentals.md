@@ -3049,3 +3049,135 @@ go test
 ```
 
 This will automatically find and run tests in any files named `*_test.go` in the current directory and its subdirectories.
+
+
+Marshalling and Unmarshalling, Encoding and Decoding are essential concepts in Go used for converting data between different representations. These operations are commonly used in scenarios like serializing data for storage or transmission, interacting with APIs, and working with different data formats such as JSON, XML, or binary data.
+
+**Marshall and Unmarshall:**
+
+**Marshalling:** Marshalling is the process of converting Go data structures like structs, slices, maps into a byte stream or a string. It transforms the data into a format that is suitable for storage or transmission, such as JSON or XML.
+Marshalling is a way to prepare data to be stored or transmitted. It converts data from its native form into a specific format, like JSON or XML, so it can be easily saved or sent somewhere else. It's like preparing a letter in a particular format before sending it out.
+
+
+**Unmarshalling:** Unmarshalling is the opposite process of Marshalling.
+ It takes data that was previously prepared in a specific format and converts it back to its original form. It's like receiving a letter in a specific format and then extracting the information from it to understand its content.
+
+**Why They Are Used:**
+- Marshalling and Unmarshalling are used to serialize and deserialize data when communicating with external systems, such as web services or databases.
+- They allow Go programs to exchange structured data with other systems or store it in a persistent format.
+
+
+```go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+type Person struct {
+    Name string `json:"name"`
+    Age  int    `json:"age"`
+}
+
+func main() {
+    // Marshalling
+    person := Person{Name: "Saklain", Age: 22}
+    bytes, _ := json.Marshal(person)
+    fmt.Println("Marshalled Data:", string(bytes))
+
+    // Unmarshalling
+    var newPerson Person
+    json.Unmarshal(bytes, &newPerson)
+    fmt.Println("Unmarshalled Data:", newPerson)
+}
+```
+
+**Steps in the Program:**
+1. Define a struct `Person` with `Name` and `Age` fields.
+2. Create a `Person` object with sample data.
+3. **Marshalling:** Use `json.Marshal` to convert the `Person` object into a JSON byte slice.
+4. Print the marshalled data.
+5. **Unmarshalling:** Declare a variable `newPerson` of type `Person`.
+6. Use `json.Unmarshal` to convert the JSON byte slice back into a `Person` object.
+7. Print the unmarshalled data.
+
+
+**Output:**
+```
+Marshalled Data: {"name":"Saklain","age":22}
+Unmarshalled Data: {Saklain 22}
+```
+
+**Encoder and Decoder:**
+**Encoding:**
+Encoding is the process of converting data from its native format into another format, such as JSON, XML, or binary.
+An encoder is like a machine that takes something you want to store or send, and it converts it into a form that's easy to manage for storage or transmission. It's like putting your data into a package.
+
+**Decoding:**
+Decoding is the reverse process of Encoding. It involves converting encoded data back into its native format.
+A decoder is the opposite of an encoder. It's like a machine that unpacks the data that was previously encoded, returning it to its original form. It's like opening the package to see what's inside.
+
+
+**Why They Are Used:**
+- Encoders and Decoders are used for serializing and deserializing data in Go, similar to Marshalling and Unmarshalling.
+- They provide more flexibility and customization options compared to built-in functions like `json.Marshal` and `json.Unmarshal`.
+
+```go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "strings"
+)
+
+type Person struct {
+    Name string `json:"name"`
+    Age  int    `json:"age"`
+}
+
+func main() {
+    // Encoding
+    person := Person{Name: "Saklain", Age: 22}
+    var builder strings.Builder
+    encoder := json.NewEncoder(&builder)
+    encoder.Encode(person)
+    fmt.Println("Encoded Data:", builder.String())
+
+    // Decoding
+    decoder := json.NewDecoder(strings.NewReader(builder.String()))
+    var newPerson Person
+    decoder.Decode(&newPerson)
+    fmt.Println("Decoded Data:", newPerson)
+}
+```
+
+**Steps in the Program:**
+1. Define a struct `Person` with `Name` and `Age` fields.
+2. Create a `Person` object with sample data.
+3. **Encoding:** Use `json.NewEncoder` to create a new JSON encoder.
+4. Encode the `Person` object into a string using `encoder.Encode`.
+5. Print the encoded data.
+6. **Decoding:** Use `json.NewDecoder` to create a new JSON decoder.
+7. Decode the encoded string back into a `Person` object using `decoder.Decode`.
+8. Print the decoded data.
+
+
+**Output:**
+```
+Encoded Data: {"name":"Saklain","age":22}
+Decoded Data: {Saklain 22}
+```
+
+**Similarities:** Both Marshalling/Unmarshalling and Encoding/Decoding serve similar purposes converting data between different representations.
+**Differences:**
+***Encoder/Decoder vs. Marshal/Unmarshal:*** 
+The main difference between encoder/decoder and marshal/unmarshal lies in their level of abstraction and the formats they work with.
+Encoder and decoder are more generic terms that can be applied to various data formats and encoding schemes, whereas marshal and unmarshal are specific to certain formats like JSON, XML, or binary.
+
+**Use Cases:**
+Encoder/decoder are commonly used when working with binary data, networking protocols, or custom data formats where you need more control over the encoding/decoding process.
+Marshal/unmarshal are more commonly used when dealing with structured data in specific formats like JSON or XML, especially when interacting with web services or APIs.
+
+
